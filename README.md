@@ -48,7 +48,18 @@ Service level tests.
 - ~~Get user with specified userId with GET message. (BONUS)~~ ✔️
 Do **GET** request for following address `/api/v1/users/{userId}`
 
-# How to run
+# How to run (Recommended)
+
+> Requirements for running locally
+> 1. Have Docker. Tested with [Docker Desktop 4.25.2](https://www.docker.com/)
+
+1. Pull repository
+2. Go to the project folder and execute with docker `docker-compose up --build`
+3. Go to documentation and start using `http://localhost:8080/swagger-ui/index.html`
+
+- **Only starting inside IDE**. Starting in Eclipse IDE for debugging purposes. We can start db separately and then start debug version from Eclipse IDE. Starting db from docker independently `docker run -d -p 3307:3306 --name mysqldb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=user_rest_demo mysql`
+
+# How to run (Optional, old way)
 
 > Requirements for running locally
 > 1. Java JDK 17 minimum. Tested with [OpenJDK21](https://jdk.java.net/21/)
@@ -58,7 +69,7 @@ Do **GET** request for following address `/api/v1/users/{userId}`
 > Docker is needed to run tests
 
 1. Pull repository
-2. Go to the project folder and build the .jar file and execute. `./mvnw spring-boot:run`
+2. Go to the project folder and build the `.jar` file and execute. `./mvnw spring-boot:run`
 3. Go to documentation and start using `http://localhost:8080/swagger-ui/index.html`
 
 - This has been tested. For the future, if there is time, there should be a docker image for setting this process up.
