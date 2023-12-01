@@ -1,0 +1,22 @@
+version: "3"
+services: 
+  springboot-app: # Name for this application as for one app
+    container_name: rest-demo-container # Container names
+    image: rest-demo-app # Used to write this image
+    restart: always
+    build: . # This can be used to build docker image. This docker file will used build docker image
+    ports:
+      - 8080:8080 
+    environment:
+      MYSQL_HOST: mysqldb # When same name, docker will create under same network
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+  mysqldb: # When same name, docker will create under same network
+    container_name: mysqldb # When same name, docker will create under same network
+    image: mysql
+    ports: 
+     - 3307:3306   
+    environment:
+      MYSQL_DATABASE: user_rest_demo
+      MYSQL_ROOT_PASSWORD: root
