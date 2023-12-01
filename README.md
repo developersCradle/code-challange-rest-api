@@ -54,10 +54,14 @@ Do **GET** request for following address `/api/v1/users/{userId}`
 > 1. Have Docker. Tested with [Docker Desktop 4.25.2](https://www.docker.com/)
 
 1. Pull repository
-2. Go to the project folder and execute with docker `docker-compose up --build`
-3. Go to documentation and start using `http://localhost:8080/swagger-ui/index.html`
+2. Go to the project folder
+3. Execute `./mvnw package` to build `.jar` file
+4. Execute with Docker `docker-compose up --build`
+5. Go to documentation and start using `http://localhost:8080/swagger-ui/index.html`
 
 - **Only starting inside IDE**. Starting in Eclipse IDE for debugging purposes. We can start db separately and then start debug version from Eclipse IDE. Starting db from docker independently `docker run -d -p 3307:3306 --name mysqldb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=user_rest_demo mysql`
+
+- For the future, if there is time, there should be a way to build all in one command and set this process up. 
 
 # How to run (Optional, old way)
 
@@ -72,4 +76,5 @@ Do **GET** request for following address `/api/v1/users/{userId}`
 2. Go to the project folder and build the `.jar` file and execute. `./mvnw spring-boot:run`
 3. Go to documentation and start using `http://localhost:8080/swagger-ui/index.html`
 
-- This has been tested. For the future, if there is time, there should be a docker image for setting this process up.
+- This has been tested. ✔️
+~~For the future, if there is time, there should be a docker image for setting this process up.~~ 
