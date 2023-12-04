@@ -1,4 +1,20 @@
-# Backend task
+## Backend task Eng
+
+Back End should include API's compliant with REST. It should include following actions:
+Adding user,
+Removing user,
+Modifying user,
+Returning all users with pagination, 
+Get user by name,
+
+- Authentication is optional
+- Database can be free of choice
+
+Description of data from API:
+
+https://jsonplaceholder.typicode.com/users
+
+## Backend task Fin
 
 Back Endissä tulisi olla REST rajapinnat käyttäjien lisäämiseen, poistamiseen ja muokkaamiseen, kaikkien käyttäjien hakemiseen siivutettuna sekä vielä käyttäjien hakemiseen nimen perusteella.
 
