@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> findAll(Optional<Integer> optionalPageSize) {
 		if (optionalPageSize.isPresent()) {
-			Page<User> returnedUsers = userRepository.findAll(PageRequest.ofSize(optionalPageSize.get().intValue())); // If sort or indexes needed. Here is place
+			Page<User> returnedUsers = userRepository.findAll(PageRequest.ofSize(optionalPageSize.get())); // If sort or indexes needed. Here is place
 			return returnedUsers.toList();
 		}
 		return userRepository.findAll();
@@ -58,9 +58,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> findAllByName(String name, Optional<Integer> pageSize) {
 		if(pageSize.isPresent()) {
-			return userRepository.findByName(name, PageRequest.ofSize(pageSize.get().intValue()));
+			return userRepository.findByName(name, PageRequest.ofSize(pageSize.get()));
 		}
 		
 		return userRepository.findByName(name, Pageable.unpaged());
+	}
+
+	@Transactional
+	@Override
+	public void saveAll(List<User> toBeSaved) {
+	       userRepository.saveAll(toBeSaved);
+		
 	}
 }

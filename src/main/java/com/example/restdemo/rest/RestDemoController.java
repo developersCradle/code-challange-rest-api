@@ -1,5 +1,6 @@
 package com.example.restdemo.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -31,27 +32,31 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.PostConstruct;
 
+
 @Tag(name = "CRUD demo operations")
 @RestController
 @RequestMapping("/api")
-public class RestDemoCotroller {
+public class RestDemoController {
 
 	public static final int USER_AT_START = 50;
 	private UserService userService;
 	Logger logger = Logger.getLogger(getClass().getName());
-
 	@Autowired
-	public RestDemoCotroller(UserService userService) {
+	public RestDemoController(UserService userService) {
 		this.userService = userService;
 	}
 
-	// This preferred for now, over initial.SQL scripts
+	
+    
+	// This preferred for now, over initial SQL scripts.
 	@PostConstruct
 	public void initializeUsers() {
 		logger.info("Creating test users for database");
+		ArrayList<User> users = new ArrayList<User>();
 		for (int i = 0; i <= USER_AT_START; i++) {
-			userService.save(Utilities.generateRandomUser(i));
+			users.add(Utilities.generateRandomUser(i));
 		}
+		userService.saveAll(users); //Much faster/efficient to use patch save
 	}
 
 	@Operation(description = "Get all users and/or with name and/or page size with GET message", summary = "Get all users")

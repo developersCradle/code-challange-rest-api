@@ -24,7 +24,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import com.example.restdemo.entity.User;
-import com.example.restdemo.rest.RestDemoCotroller;
+import com.example.restdemo.rest.RestDemoController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -36,40 +36,40 @@ import com.google.gson.JsonObject;
 public class UserServiceTests {
 	/*
 	 * Test db is created on when tests are ran in Eclipse
+	 * 
 	 * @Transactional roll back after every test
 	 */
 	String apiVersionUnderTest = "v1";
 	String apiUrlUnderTest;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
-	@Container
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");
-			
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-    	registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", mySQLContainer::getUsername);
-        registry.add("spring.datasource.password", mySQLContainer::getPassword);
-    }
 
-    @BeforeAll
-    static void beforeAll() { // Before all, need to start container
-    	mySQLContainer.start();
-    }
-    
-    @AfterAll
-    static void afterAll() { // After all, need to stop container
-    	mySQLContainer.stop();
-    }
-    
-    
+	@Container
+	static MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest");
+
+	@DynamicPropertySource
+	static void configureProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
+		registry.add("spring.datasource.username", mySQLContainer::getUsername);
+		registry.add("spring.datasource.password", mySQLContainer::getPassword);
+	}
+
+	@BeforeAll
+	static void beforeAll() { // Before all, need to start container
+		mySQLContainer.start();
+	}
+
+	@AfterAll
+	static void afterAll() { // After all, need to stop container
+		mySQLContainer.stop();
+	}
+
 	@Before
 	public void setup() {
-		this.mockMvc = MockMvcBuilders.standaloneSetup(RestDemoCotroller.class).build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup(RestDemoController.class).build();
 	}
-	
+
 	@Test
 	@Transactional
 	public void postAddNewUserTest() throws Exception {
@@ -78,7 +78,7 @@ public class UserServiceTests {
 		mockMvc.perform(MockMvcRequestBuilders.post(apiUrlUnderTest).contentType("application/json")
 				.content(asJsonString(user))).andExpect(status().isCreated())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
-		
+
 	}
 
 	@Test
@@ -90,22 +90,30 @@ public class UserServiceTests {
 				.content(asJsonString(user))).andExpect(status().isUnsupportedMediaType());
 	}
 
-	
 	@Test
 	@Transactional
 	public void getAllUsersTest() throws Exception {
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users";
 		mockMvc.perform(MockMvcRequestBuilders.get(apiUrlUnderTest)).andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()) // Some values should exist
-				.andExpect(jsonPath("$.length()", is(RestDemoCotroller.USER_AT_START)));
+				.andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()) // Should not return empty value
+				.andExpect(jsonPath("$.length()", is(RestDemoController.USER_AT_START)));
 	}
-	
+
 	@Test
 	@Transactional
 	public void getAllUsersWithImpossibleNameTest() throws Exception {
+		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users/";
+		
+		// Removing users, just make sure that its not present
+		User user = new User(551, "ImpossibleName", "7777777"); //Should not exist in db
+		mockMvc.perform(MockMvcRequestBuilders.delete(apiUrlUnderTest + "{id}", user.getId()))
+				.andExpect(status().isNotFound())
+				.andExpect(MockMvcResultMatchers.content().string("User id - " + user.getId() + " was not found")); // Delete should not find any patient with such id
+
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users";
-		mockMvc.perform(MockMvcRequestBuilders.get(apiUrlUnderTest).param("name", "ImpossibleName"))
-				.andExpect(status().isNoContent()).andExpect(MockMvcResultMatchers.jsonPath("$.*").doesNotExist()); // Should not be present
+		
+		mockMvc.perform(MockMvcRequestBuilders.get(apiUrlUnderTest).param("name", user.getName()))
+				.andExpect(status().isNoContent()).andExpect(MockMvcResultMatchers.jsonPath("$.*").doesNotExist()); //There should not be any findings with this name 
 	}
 
 	@Test
@@ -114,13 +122,13 @@ public class UserServiceTests {
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users";
 		User user = new User(12345, "nameToBeFound", "666");
 		mockMvc.perform(MockMvcRequestBuilders.post(apiUrlUnderTest).contentType("application/json")
-				.content(asJsonString(user))).andExpect(status().isCreated()).andReturn(); // Adding user with unique
-																							// name
+				.content(asJsonString(user))).andExpect(status().isCreated());	// Adding user with unique
+																				// name
 
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users";
 		mockMvc.perform(MockMvcRequestBuilders.get(apiUrlUnderTest).param("name", user.getName()))
 				.andExpect(status().isOk()) // User with name found
-				.andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Some values should exist
+				.andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Should not return empty value
 	}
 
 	@Test
@@ -128,15 +136,23 @@ public class UserServiceTests {
 	public void getUserByIdTest() throws Exception {
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users/30";
 		mockMvc.perform(MockMvcRequestBuilders.get(apiUrlUnderTest)).andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Some values should exist
+				.andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()) // Should return some User
+				.andExpect(status().isOk()) // and its OK
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(30)); // Should find id which was 
 	}
 
 	@Test
 	@Transactional
 	public void getUserByIdShouldNotBeFoundTest() throws Exception {
-		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users/2098";
+		//Delete user first
+		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users/";
+		mockMvc.perform(MockMvcRequestBuilders.delete(apiUrlUnderTest + "{id}", 50))
+		.andExpect(status().isOk())
+		.andExpect(MockMvcResultMatchers.content().string("Deleted user id - " + 50));  
+		//Then test, not found
+		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users/50"; 	//Should not find with such id
 		mockMvc.perform(MockMvcRequestBuilders.get(apiUrlUnderTest)).andExpect(status().isNotFound())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.*").doesNotExist()); // Should not find anything
+				.andExpect(MockMvcResultMatchers.jsonPath("$.*").doesNotExist()); 
 	}
 
 	@Test
@@ -146,7 +162,9 @@ public class UserServiceTests {
 		User user = new User(3, "PekkaModified", "12222222");
 		mockMvc.perform(
 				MockMvcRequestBuilders.put(apiUrlUnderTest).contentType("application/json").content(asJsonString(user)))
-				.andExpect(status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Some values should exist
+				.andExpect(status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Should not
+																										// return empty
+																										// value
 	}
 
 	@Test
@@ -156,14 +174,17 @@ public class UserServiceTests {
 		User user = new User(132323223, "PekkaShouldBeAdded", "133333");
 		mockMvc.perform(
 				MockMvcRequestBuilders.put(apiUrlUnderTest).contentType("application/json").content(asJsonString(user)))
-				.andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Should exist and adding was made
+				.andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.*").exists()); // Should
+																											// exist and
+																											// adding
+																											// was made
 	}
-	
+
 	@Test
 	@Transactional
 	public void deleteCreatedUserTest() throws Exception {
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users";
-		
+
 		User user = new User(20, "PekkaForDelete", "66666");
 		MvcResult addedUser = mockMvc
 				.perform(MockMvcRequestBuilders.post(apiUrlUnderTest).contentType("application/json")
@@ -176,8 +197,9 @@ public class UserServiceTests {
 		JsonElement jsonElement = convertedObject.get("id");
 
 		apiUrlUnderTest = "/api/" + apiVersionUnderTest + "/users/";
-		mockMvc.perform(MockMvcRequestBuilders.delete(apiUrlUnderTest + "{id}", jsonElement.getAsInt())).andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().string("Deleted user id - " + jsonElement.getAsInt())); // Delete was ok and returned delete code was the same as which was given
-		
+		mockMvc.perform(MockMvcRequestBuilders.delete(apiUrlUnderTest + "{id}", jsonElement.getAsInt()))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string("Deleted user id - " + jsonElement.getAsInt()));  // Delete was ok and returned delete code was the same as which was given
 	}
 
 	private String asJsonString(Object object) {
@@ -186,7 +208,7 @@ public class UserServiceTests {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "";
 	}
 
 }

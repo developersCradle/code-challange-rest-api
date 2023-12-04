@@ -11,6 +11,7 @@ public interface UserService {
 	User findById(int theId);
 	User save(User theEmployee);
 	void deleteById(int theId);
+	void saveAll(List<User> toBeSaved);
 }
 
 

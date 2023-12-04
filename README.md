@@ -47,6 +47,7 @@ Service level tests.
 - For the sake of time authentication was not introduced. If there would be such a time, usage of tokens would be an option to go.
 - ~~Get user with specified userId with GET message. (BONUS)~~ ✔️
 Do **GET** request for following address `/api/v1/users/{userId}`
+- ~~Add support for saving multiple users at same time. This is for `saveAll()`. [BatchInserts](https://www.baeldung.com/spring-data-jpa-batch-inserts) (BONUS)~~ ✔️ 
 
 # How to run (Recommended)
 
