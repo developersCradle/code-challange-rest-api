@@ -44,7 +44,7 @@ Service level tests.
     - Unit tests were not introduced since business logic was fairly simple.
     - ~~Option to add docker to tests, so test db and production db data won't get mixed up.~~ ✔️
 - Other bonuses would be to implement sort, offset and indexes into query logic. (BONUS)
-- For the sake of time authentication was not introduced. If there would be such a time, usage of tokens would be an option to go.
+- For the sake of time authentication was not introduced. If there would be such a time, usage of `JWT Bearer Token to Swagger` would be an option to go.
 - ~~Get user with specified userId with GET message. (BONUS)~~ ✔️
 Do **GET** request for following address `/api/v1/users/{userId}`
 - ~~Add support for saving multiple users at same time. This is for `saveAll()`. [BatchInserts](https://www.baeldung.com/spring-data-jpa-batch-inserts) (BONUS)~~ ✔️ 
