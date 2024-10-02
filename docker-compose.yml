@@ -12,6 +12,9 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_PORT: 3306
+    depends_on: # Ensure db running first before springboot app
+      - mysqldb
+
   mysqldb: # When same name, docker will create under same network
     container_name: mysqldb # When same name, docker will create under same network
     image: mysql
