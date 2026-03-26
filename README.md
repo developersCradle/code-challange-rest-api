@@ -1,9 +1,9 @@
 
 <p align="center">
-    <img id="codemen" src="codemen.png">
+    <img id="codemen_logo" src="Codemen_Logo.png">
 </p>
 
-## Backend task Eng.
+#### Backend task Eng.
 
 Back End should include API's compliant with REST. It should include following actions:
 Adding user,
@@ -19,7 +19,7 @@ Description of data from API:
 
 https://jsonplaceholder.typicode.com/users
 
-## Backend task Fin.
+#### Backend task Fin.
 
 Back Endissä tulisi olla REST rajapinnat käyttäjien lisäämiseen, poistamiseen ja muokkaamiseen, kaikkien käyttäjien hakemiseen siivutettuna sekä vielä käyttäjien hakemiseen nimen perusteella.
 
@@ -30,7 +30,7 @@ Rajapinnan datasta:
 
 https://jsonplaceholder.typicode.com/users
 
-### Checklist.
+#### Checklist.
 
 - ~~Spring API documentation.~~ ✔️
 [Open-API](https://springdoc.org/#getting-started) was used, because Swagger current version didn't support the newest Spring Boot. To look documentation, navigate to `http://localhost:8080/swagger-ui/index.html`.
@@ -70,7 +70,7 @@ Service level tests.
 Do **GET** request for following address `/api/v1/users/{userId}`.
 - ~~Add support for saving multiple users at same time. This is for `saveAll()` [BatchInserts](https://www.baeldung.com/spring-data-jpa-batch-inserts) (BONUS)~~. ✔️ 
 
-# How to run (Recommended).
+#### How to run (Recommended).
 
 > Requirements for running locally:
 > 1. Have Docker. Tested with [Docker Desktop 4.25.2](https://www.docker.com/).
@@ -84,14 +84,14 @@ Do **GET** request for following address `/api/v1/users/{userId}`.
 
 - ~~For the future, if there is time, there should be a way to build all in one command and set this process up.~~ 
 
-# How to run (Optional, old way).
+#### How to run (Optional, old way).
 
 > Requirements for running locally.
 > 1. Java JDK 17 minimum. Tested with [OpenJDK21](https://jdk.java.net/21/).
 > 2. MySQL server running. Tested with [MySQL 8.x.xx](https://dev.mysql.com/downloads/installer/). Server should be running in port `3306` and root password **root** and root user **root**.
+> 3. Docker is needed to run tests.
 
 > Maven should not be needed since using Maven wrapper `mvnw`. 
-> Docker is needed to run tests.
 
 1. Pull repository.
 2. Go to the project folder and build the `.jar` file and execute. `./mvnw spring-boot:run`.
@@ -99,3 +99,23 @@ Do **GET** request for following address `/api/v1/users/{userId}`.
 
 - This has been tested. ✔️
 ~~For the future, if there is time, there should be a docker image for setting this process up.~~ 
+
+#### Feedback/Grade.
+
+<div align="center">
+    <img alt="Microservices Architecture - The Complete Guide Course" src="Feedback_Good_Grade_Fin.PNG" width="700"/>
+</div>
+
+1. Feedback in Finnish, with **excellent grade**!
+
+<div align="center">
+    <img alt="Microservices Architecture - The Complete Guide Course" src="Feedback_Good_Grade_Eng.PNG" width="700"/>
+</div>
+
+2. Feedback in English, with **excellent grade**! This is translated.
+
+#### What I Learned.
+
+- Use Docker in test's.
+- Use pagination in the API calls.
+- Better usage of the Java `Optionals`.
