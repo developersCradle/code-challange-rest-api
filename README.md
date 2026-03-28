@@ -1,23 +1,23 @@
-
 <p align="center">
-    <img id="codemen_logo" src="Codemen_Logo.png">
+    <img src="Orc_Miner.gif" width="80" alt="Orc Miner First!">
+    <img id="Codemen_Logo" src="Codemen_Logo.png" width="450" alt="Codemen Logo!">
+    <img src="Orc_Miner.gif" width="80" alt="Orc Miner Second!">
+    <br>
+    <text>Think. Code. Optimize. Build Powerful APIs.</text>
 </p>
 
 #### Backend task Eng.
 
-Back End should include API's compliant with REST. It should include following actions:
-Adding user,
-Removing user,
-Modifying user,
-Returning all users with pagination, 
-Get user by name,
-
-- Authentication is optional
-- Database can be free of choice
-
-Description of data from API:
-
-https://jsonplaceholder.typicode.com/users
+- Back End should include API's compliant with REST. It should include following actions:
+    - Adding user.
+    - Removing user.
+    - Modifying user.
+    - Returning all users with pagination.
+    - Get user by name.
+- Authentication is optional.
+- Database can be free of choice.
+- Description of data from API:
+    - https://jsonplaceholder.typicode.com/users
 
 #### Backend task Fin.
 
@@ -25,10 +25,8 @@ Back Endissä tulisi olla REST rajapinnat käyttäjien lisäämiseen, poistamise
 
 - Autentikaatiota ei välttämättä tarvita.
 - Tietokannaksi voit valita minkä itse koet parhaaksi.
-
-Rajapinnan datasta:
-
-https://jsonplaceholder.typicode.com/users
+- Rajapinnan datasta:
+    - https://jsonplaceholder.typicode.com/users
 
 #### Checklist.
 
@@ -103,16 +101,25 @@ Do **GET** request for following address `/api/v1/users/{userId}`.
 #### Feedback/Grade.
 
 <div align="center">
-    <img alt="Microservices Architecture - The Complete Guide Course" src="Feedback_Good_Grade_Fin.PNG" width="700"/>
+    <img alt="Codemen challange!" src="Fin_Flag.PNG" width="60"/>
 </div>
 
-1. Feedback in Finnish, with **excellent grade**!
 
 <div align="center">
-    <img alt="Microservices Architecture - The Complete Guide Course" src="Feedback_Good_Grade_Eng.PNG" width="700"/>
+    <img alt="Codemen challange!" src="Feedback_Good_Grade_Fin.PNG" width="900"/>
 </div>
 
-2. Feedback in English, with **excellent grade**! This is translated.
+1. Palaute on suomeksi. **Erinomainen** arvosana!
+
+<div align="center">
+    <img alt="Codemen challange!" src="Eng_Flag.PNG" width="60"/>
+</div>
+
+<div align="center">
+    <img alt="Codemen challange!" src="Feedback_Good_Grade_Eng.PNG" width="900"/>
+</div>
+
+1. Feedback in English, with **excellent grade**! This is translated.
 
 #### What I Learned.
 
