@@ -103,13 +103,13 @@ Do **GET** request for following address `/api/v1/users/{userId}`.
 #### Feedback/Grade.
 
 <div align="center">
-    <img alt="Microservices Architecture - The Complete Guide Course" src="Feedback_Good_Grade_Fin.PNG" width="700"/>
+    <img alt="Codemen challange!" src="Feedback_Good_Grade_Fin.PNG" width="900"/>
 </div>
 
 1. Feedback in Finnish, with **excellent grade**!
 
 <div align="center">
-    <img alt="Microservices Architecture - The Complete Guide Course" src="Feedback_Good_Grade_Eng.PNG" width="700"/>
+    <img alt="Codemen challange!" src="Feedback_Good_Grade_Eng.PNG" width="900"/>
 </div>
 
 2. Feedback in English, with **excellent grade**! This is translated.
